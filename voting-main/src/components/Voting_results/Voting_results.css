@@ -1,0 +1,41 @@
+.Voiting_result {
+    grid-area: tB;
+    box-shadow: 0 2px 63px rgb(0 0 0 / 15%);
+    width: 100%;
+    height: 310px;
+}
+
+.Voting_item {
+    display: grid;
+    grid-template-areas: "r k";
+    grid-template-columns: 4fr 1fr;
+    margin: 2px;
+}
+
+.knopka {
+    margin-left: 10px;
+    margin-right: 10px;
+    grid-area: k;
+    height: 100%;
+}
+.ramka {
+    grid-area: r;
+    height: 40px; 
+    border: 2px solid grey;
+}
+
+.edit_modal_new_data_profile.title_text_data_profile_modal {
+    font-size: small;
+}
+
+.edit_modal_old_data_profile {
+    margin : 5%;
+    margin-top: -2%;
+    text-align: center;
+    text-decoration: solid;
+    font-size: large;
+}
+
+.title_old_data_profile_modal {
+    color: #1890ff;
+}

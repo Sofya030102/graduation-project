@@ -1,0 +1,11 @@
+.ToolBar {
+    grid-area: tBa;
+    box-shadow: 0 2px 63px rgb(0 0 0 / 15%);
+    width: 100%;
+    height: 310px;
+}
+
+.ToolBarButton {
+    width: 96%;
+    margin: 2%;
+}

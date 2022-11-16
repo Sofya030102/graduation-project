@@ -1,0 +1,57 @@
+.ProfileData {
+    display: grid;
+    grid-template-areas: "a a" 
+    "t d"
+    "f f";
+    grid-area: pD;
+    box-shadow: 0 2px 63px rgb(0 0 0 / 15%);
+    width: 100%;
+    height: 340px;
+}
+
+.Avatar {
+    grid-area: a;
+    margin: 8px;
+    justify-self: center;
+}
+
+.title_text{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    grid-area: t;
+    text-align: center;
+}
+
+.profile_details {
+    font-family: 'Times New Roman', Times, serif;
+    grid-area: d;
+    color: #1890ff;
+    text-align: center;
+}
+
+.info_email {
+    font-size: large;
+    font-weight: bold;
+    font-style: normal;
+}
+
+.info_login {
+    font-size: large;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.info_fio {
+    font-size: x-large;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.adding_role {
+    grid-area: f;
+    font-family: 'Times New Roman', Times, serif;
+    color: #1890ff;
+    text-align: center;
+    font-size: large;
+    font-weight: bold;
+    font-style: normal;
+}

@@ -1,0 +1,78 @@
+.cabinet {
+  display: grid;
+  grid-template-areas: 'tB pD';
+  grid-template-columns: 1fr 4fr;
+  column-gap: 1%;
+}
+
+.cabinet-back {
+  width: 100%;
+  max-width: 1920px;
+  margin: 0 auto;
+  justify-content: space-between;
+}
+
+.cabinet__profil {
+  display: flex;
+  justify-content: space-between;
+  box-shadow: 0 2px 63px rgb(0 0 0 / 15%);
+  padding: 30px;
+  border-radius: 30px;
+}
+
+.cabinet__profil-title {
+  font-size: 34px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.cabinet__profil-data {
+  font-size: 20px;
+  border-right: 3px solid silver;
+  padding-right: 20px;
+}
+
+.cabinet__trip-title {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 30px;
+}
+
+.cabinet__trip-out {
+  margin-top: 10px;
+}
+
+.cabinet__history-title {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.cabinet__history-data {
+  font-size: 16px;
+  margin-bottom: 20px;
+  border-bottom: 3px solid silver;
+  padding-bottom: 10px;
+}
+
+.site-calendar-demo-card {
+  width: 300px;
+  border: 1px solid #f0f0f0;
+  border-radius: 2px;
+}
+
+.cabinet__popup-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.cabinet__popup-body-category-block {
+  display: flex;
+  margin-top: 20px;
+  margin-bottom: 80px;
+}
+
+.cabinet__popup-body-category {
+  margin-right: 10px;
+  font-size: 18px;
+}

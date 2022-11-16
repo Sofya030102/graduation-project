@@ -1,0 +1,45 @@
+=============== May 21, 2022 (EEST) ===============
+11:23:41.086391 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+11:23:41.092448 db@open opening
+11:23:41.093839 version@stat F·[] S·0B[] Sc·[]
+11:23:41.094909 db@janitor F·2 G·0
+11:23:41.094909 db@open done T·2.4609ms
+11:23:41.105723 db@close closing
+11:23:41.105723 db@close done T·0s
+=============== May 21, 2022 (EEST) ===============
+11:23:41.249723 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+11:23:41.250778 version@stat F·[] S·0B[] Sc·[]
+11:23:41.250778 db@open opening
+11:23:41.250778 journal@recovery F·1
+11:23:41.253401 journal@recovery recovering @1
+11:23:41.256534 memdb@flush created L0@2 N·21 S·1KiB "D\xe5\x87..'\xd6\xe6,v7":"\xf0=\r..\xb7\x87H,v6"
+11:23:41.258630 version@stat F·[1] S·1KiB[1KiB] Sc·[0.25]
+11:23:41.265141 db@janitor F·3 G·0
+11:23:41.265141 db@open done T·14.3632ms
+=============== May 29, 2022 (EEST) ===============
+11:40:43.172931 db@close closing
+11:40:43.173931 db@close done T·999.9µs
+=============== May 21, 2022 (EEST) ===============
+12:24:21.273961 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+12:24:21.281575 version@stat F·[1] S·1KiB[1KiB] Sc·[0.25]
+12:24:21.281575 db@open opening
+12:24:21.281575 journal@recovery F·1
+12:24:21.281575 journal@recovery recovering @3
+12:24:21.304199 memdb@flush created L0@5 N·7387 S·415KiB "\x04a\xe8..\xe0\xc6\xc5,v7323":"\xfe\x1bi..\xb7\xe2#,v7355"
+12:24:21.305244 version@stat F·[2] S·417KiB[417KiB] Sc·[0.50]
+12:24:21.312566 db@janitor F·4 G·0
+12:24:21.312566 db@open done T·30.9852ms
+12:24:21.325495 db@close closing
+12:24:21.326016 db@close done T·521.2µs
+=============== May 21, 2022 (EEST) ===============
+12:24:21.477579 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+12:24:21.478099 version@stat F·[2] S·417KiB[417KiB] Sc·[0.50]
+12:24:21.478099 db@open opening
+12:24:21.478099 journal@recovery F·1
+12:24:21.480724 journal@recovery recovering @6
+12:24:21.484078 memdb@flush created L0@8 N·1 S·331B "eth..o\x057,v7411":"eth..o\x057,v7411"
+12:24:21.486688 version@stat F·[3] S·417KiB[417KiB] Sc·[0.75]
+12:24:21.493931 db@janitor F·5 G·0
+12:24:21.494921 db@open done T·16.819ms
+13:34:16.040227 db@close closing
+13:34:16.040227 db@close done T·0s

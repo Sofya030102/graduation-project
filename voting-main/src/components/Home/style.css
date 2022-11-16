@@ -1,0 +1,29 @@
+.home {
+    display: grid;
+    grid-template-areas: 'a v';
+    grid-template-columns: 1fr 100fr;
+    column-gap: 1%;
+    box-shadow: 0 2px 63px rgb(0 0 0 / 15%);
+    width: 100%;
+    height: 340px;
+}
+
+.admin_panel {
+    grid-area: a;
+    box-shadow: 0 2px 63px rgb(0 0 0 / 15%);
+    width: 100%;
+    height: 340px;
+}
+
+.left_panel_items {
+    width: 96%;
+    margin: 2%;
+}
+
+.voting_items{
+    grid-area: v;
+    margin-top: 1%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    column-gap: 1%;
+}

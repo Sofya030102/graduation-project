@@ -1,0 +1,11 @@
+.question {
+    color: #1890ff;
+}
+.avatar_updater {
+}
+
+.avatar_updater_base {
+    display: inline-block;
+    align-items: center;
+    justify-content: center
+}

@@ -1,0 +1,35 @@
+.voting_css {
+    box-shadow: 0 2px 63px rgb(0 0 0 / 15%);
+    width: 100%;
+    height: fit-content;
+}
+
+.question {
+    text-align: center;
+    padding: 2pt;
+    padding-bottom: 5pt;
+    font-family:'Times New Roman', Times, serif;
+    font-size: 18pt;
+    font-weight: normal;
+    color:blue;
+}
+
+.checkboxes {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+    margin-bottom: -3%;
+}
+
+.answers {
+    color:red;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: medium;
+    font-weight: bold;
+    text-shadow: 5pt;
+}
+
+.vote_button{
+    width: 100%;
+}

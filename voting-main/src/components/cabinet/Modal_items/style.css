@@ -1,0 +1,15 @@
+.edit_modal_new_data_profile.title_text_data_profile_modal {
+    font-size: small;
+}
+
+.edit_modal_old_data_profile {
+    margin : 5%;
+    margin-top: -2%;
+    text-align: center;
+    text-decoration: solid;
+    font-size: large;
+}
+
+.title_old_data_profile_modal {
+    color: #1890ff;
+}

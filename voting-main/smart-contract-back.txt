@@ -1,0 +1,233 @@
+pragma solidity >=0.7.0 <0.9.0;
+pragma experimental ABIEncoderV2;
+contract Voting_system {
+    
+    struct User{        //пользователь
+        string name;            //имя
+        address login;         //логин(адрес)
+        string email;          //почта
+        string role;        //роль: Student - студент, Aspirant - аспирант, PPSNV - преподаватель не в учёном совете, PPSV - преподаватель в учёном совете, ACUU - администратор
+        bool EC;        //избирательная комиссия
+        bool auditor;        //аудитор
+    }
+    
+    struct Voting{        //голосование
+        string question;        //вопрос голосования
+        bool open_voting;        //открытое голосование
+        bool ec_voting;        //голосование за члена избирательной комиссии
+        string voters;        //тип голосующих
+        uint time;        //срок
+        uint agreements_quantity;        //количество согласий
+        uint disagreements_quantity;        //количество несогласий
+    }
+    
+    struct Voter{        //проголосовавшие
+        address[] login;        //логины
+        bool[] choice;        //выбор
+    }
+    
+    mapping (address => User) Users;        //пользователи
+    Voting[] public Votings;        //голосования
+    mapping (uint => Voter) Voters;        //проголосовавшие
+    
+    uint students_aspirants_quantity = 0;        //количество студентов и аспирантов
+    uint PPS_quantity = 0;        //количество преподавателей
+    address def_acc = 0x0000000000000000000000000000000000000000;
+    constructor(){      
+        address ACUU1 = 0x5B38Da6a701c568545dCfcB03FcB875f56beddC4;    //администраторы
+        address ACUU2 = 0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2;
+        address ACUU3 = 0xCA35b7d915458EF540aDe6068dFe2F44E8fa733c;
+        Users[ACUU1] = User("Ivanov Ivan Ivanovich", ACUU1, "ACUU1@gmail.com", "ACUU", false, false);
+        Users[ACUU2] = User("Sergeev Sergey Sergeevich", ACUU2, "ACUU2@gmail.com", "ACUU", false, false);
+        Users[ACUU3] = User("Dmitriev Dmitriy Dmitrievich", ACUU3, "ACUU3@gmail.com", "ACUU", false, false);
+    }
+   
+   modifier ACUU_check() {        //проверка на роль администратора
+      require(keccak256(abi.encodePacked(Users[msg.sender].role)) == keccak256(abi.encodePacked("ACUU")), "you are not ACUU");
+         _;
+   }
+   modifier Not_ACUU_check() {        //проверка на отсутствие роли администратора
+      require(keccak256(abi.encodePacked(Users[msg.sender].role)) != keccak256(abi.encodePacked("ACUU")), "you are ACUU");
+         _;
+   }
+    
+    function Registration(string memory name, string memory email) public{          //регистрация                                                            
+        require(keccak256(abi.encodePacked(Users[msg.sender].email)) == keccak256(abi.encodePacked("")), "already registered");
+        Users[msg.sender] = User(name, msg.sender, email, "Student", false, false);
+        students_aspirants_quantity++;
+    }
+    
+    function Role_change(address login) public ACUU_check{                //изменение роли                                                                                  
+        require(keccak256(abi.encodePacked(Users[login].role)) != keccak256(abi.encodePacked("ACUU")), "not for ACUU");
+        if (keccak256(abi.encodePacked(Users[login].role)) == keccak256(abi.encodePacked("Student")))
+            Users[login].role = "Aspirant";
+        else if (keccak256(abi.encodePacked(Users[login].role)) == keccak256(abi.encodePacked("Aspirant"))){
+            Users[login].role = "PPSNV";
+            students_aspirants_quantity--;
+            PPS_quantity++;
+        }else if (keccak256(abi.encodePacked(Users[login].role)) == keccak256(abi.encodePacked("PPSV")))
+            Users[login].role = "PPSNV";
+        else
+            Users[login].role = "PPSV";
+    }
+    
+    function EC_voting(string memory question) public Not_ACUU_check{               //создание голосования за члена избиратлеьной комиссии                                                                                    
+        string memory voters;
+        if (keccak256(abi.encodePacked(Users[msg.sender].role)) == keccak256(abi.encodePacked("Student"))
+        || (keccak256(abi.encodePacked(Users[msg.sender].role)) == keccak256(abi.encodePacked("Aspirant"))))
+            voters = "Students and aspirants";
+        else
+            voters = "PPS";
+        Votings.push(Voting(question, true, true, voters, block.timestamp + 7 * 86400, 0, 0));
+        Voters[Votings.length-1].login.push(msg.sender);
+        Voters[Votings.length-1].choice.push(true);
+    }
+    
+    function EC_vote(uint voting, bool choice) public Not_ACUU_check{        //проголосовать за члена избирательной комиссии
+        require(block.timestamp <= Votings[voting].time, "out of time");
+        require(Votings[voting].ec_voting == true, "this is not standard voting module");
+        require(keccak256(abi.encodePacked(Votings[voting].voters)) == keccak256(abi.encodePacked("Students and aspirants")) 
+        && (keccak256(abi.encodePacked(Users[msg.sender].role)) == keccak256(abi.encodePacked("Student")) || 
+        (keccak256(abi.encodePacked(Users[msg.sender].role)) == keccak256(abi.encodePacked("Aspirant")))) 
+        || keccak256(abi.encodePacked(Votings[voting].voters)) == keccak256(abi.encodePacked("PPS"))
+        && (keccak256(abi.encodePacked(Users[msg.sender].role)) == keccak256(abi.encodePacked("PPSNV")) || 
+        (keccak256(abi.encodePacked(Users[msg.sender].role)) == keccak256(abi.encodePacked("PPSV"))) ), "wrong role");
+        for(uint i = 0; i < Voters[voting].login.length; i++){
+            require(Voters[voting].login[i] != Users[msg.sender].login, "you're already voted");
+        }
+        if (choice == true)
+            Votings[voting].agreements_quantity++;
+        else
+            Votings[voting].disagreements_quantity++;
+        Voters[voting].login.push(msg.sender);
+        Voters[voting].choice.push(choice);
+    }
+    
+    function EC_check(uint id) public view ACUU_check returns(bool){        //проверка голосов зачлена избирательной комиссии для админа
+        require(Votings[id].ec_voting == true, "not ec voting");
+        if (keccak256(abi.encodePacked(Votings[id].voters)) == keccak256(abi.encodePacked("Students and aspirants"))
+            && Votings[id].agreements_quantity > students_aspirants_quantity/2
+            || keccak256(abi.encodePacked(Votings[id].voters)) == keccak256(abi.encodePacked("PPS"))
+            && Votings[id].agreements_quantity > PPS_quantity/2)
+            return true;
+        else
+            return false;
+    }
+    
+    function EC_change(address login) public ACUU_check{                   //ручное изменение роли члена избирательной комиссии для админа                                                                                
+        if (Users[login].EC == false)
+            Users[login].EC = true;
+        else
+            Users[login].EC = false;
+    }
+    
+    function Auditor_change(address login) public ACUU_check{               //ручное изменение роли аудитора для админа                                                                             
+        if (Users[login].auditor == false)
+            Users[login].auditor = true;
+        else
+            Users[login].auditor = false;
+    }
+    
+    function New_voting(string memory question, bool open_voting, uint time) public Not_ACUU_check{              //создание нового голосования                                                                                   
+        require(Users[msg.sender].EC == true, "you are not EC");
+        require(time >= 1 && time <= 7, "wrong time");
+        string memory voters;
+        if (keccak256(abi.encodePacked(Users[msg.sender].role)) == keccak256(abi.encodePacked("Student"))
+        || (keccak256(abi.encodePacked(Users[msg.sender].role)) == keccak256(abi.encodePacked("Aspirant"))))
+            voters = "Students and aspirants";
+        else
+            voters = "PPS";
+        Votings.push(Voting(question, open_voting, false, voters, block.timestamp + time * 86400, 0, 0));
+        Voters[Votings.length-1].login.push(msg.sender);
+        Voters[Votings.length-1].choice.push(true);
+        
+    }
+    
+    function Vote(uint voting, bool choice) public Not_ACUU_check{        //проголосовать
+        require(block.timestamp <= Votings[voting].time, "out of time");
+        require(Votings[voting].ec_voting == false, "this is not ec voting module");
+        require(keccak256(abi.encodePacked(Votings[voting].voters)) == keccak256(abi.encodePacked("Students and aspirants")) 
+        && (keccak256(abi.encodePacked(Users[msg.sender].role)) == keccak256(abi.encodePacked("Student")) || 
+        (keccak256(abi.encodePacked(Users[msg.sender].role)) == keccak256(abi.encodePacked("Aspirant")))) 
+        || keccak256(abi.encodePacked(Votings[voting].voters)) == keccak256(abi.encodePacked("PPS"))
+        && (keccak256(abi.encodePacked(Users[msg.sender].role)) == keccak256(abi.encodePacked("PPSNV")) || 
+        (keccak256(abi.encodePacked(Users[msg.sender].role)) == keccak256(abi.encodePacked("PPSV"))) ), "wrong role");
+        for(uint i = 0; i < Voters[voting].login.length; i++){
+            require(Voters[voting].login[i] != Users[msg.sender].login, "you're already voted");
+        }
+        if (choice == true)
+            Votings[voting].agreements_quantity++;
+        else
+            Votings[voting].disagreements_quantity++;
+        Voters[voting].login.push(msg.sender);
+        Voters[voting].choice.push(choice);
+    }
+    
+    function Get_voting_results(uint id) public view returns(string memory, uint agreements, uint disagreements){        //получение результатов голосования
+        return(Votings[id].question, Votings[id].agreements_quantity, Votings[id].disagreements_quantity);
+    }
+    
+    function Get_voting_info(uint id) public view returns(string memory voters_type, uint agreements, uint disagreements, address[] memory logins){        //получение информации о голосовании для аудиторов
+        require(Users[msg.sender].auditor == true, "only for auditors");
+        
+        require(keccak256(abi.encodePacked(Votings[id].voters)) == keccak256(abi.encodePacked("PPS"))
+        && (keccak256(abi.encodePacked(Users[msg.sender].role)) == keccak256(abi.encodePacked("Student"))
+        || (keccak256(abi.encodePacked(Users[msg.sender].role)) == keccak256(abi.encodePacked("Aspirant"))))
+        || keccak256(abi.encodePacked(Votings[id].voters)) == keccak256(abi.encodePacked("Students and aspirants"))
+        && (keccak256(abi.encodePacked(Users[msg.sender].role)) == keccak256(abi.encodePacked("PPSV"))
+        || (keccak256(abi.encodePacked(Users[msg.sender].role)) == keccak256(abi.encodePacked("PPSNV")))), "wrong voters type");
+        
+        return(Votings[id].voters, Votings[id].agreements_quantity, Votings[id].disagreements_quantity, Voters[id].login);
+    }
+    
+    function User_role(address login) public view returns(string memory role){        //проверка роли пользователи для аудиторов
+        require(Users[msg.sender].auditor == true, "only for auditors");
+        return(Users[login].role);
+    }
+    
+    function Change_name(string memory name) public{        //изменение имени
+        Users[msg.sender].name = name;
+    }
+    
+    function Change_email(string memory email) public{        //изменение почты
+        Users[msg.sender].email = email;
+    }
+    
+    
+    function Get_votings(bool open_voting, bool ec_voting) public view returns(string[] memory questions_list, uint[] memory id_list){        //получение списка доступных голосований
+        require(open_voting && !ec_voting == true, "ec voting can't be closed");
+        string[] memory questions = new string[](Votings.length);
+        uint[] memory ids  = new uint[](Votings.length);
+        uint j = 0;
+        for(uint id = 0; id < Votings.length; id++){
+            if(keccak256(abi.encodePacked(Votings[id].voters)) == keccak256(abi.encodePacked("Students and aspirants"))
+        && (keccak256(abi.encodePacked(Users[msg.sender].role)) == keccak256(abi.encodePacked("Student"))
+        || (keccak256(abi.encodePacked(Users[msg.sender].role)) == keccak256(abi.encodePacked("Aspirant"))))
+        || keccak256(abi.encodePacked(Votings[id].voters)) == keccak256(abi.encodePacked("PPS"))
+        && (keccak256(abi.encodePacked(Users[msg.sender].role)) == keccak256(abi.encodePacked("PPSV"))
+        || (keccak256(abi.encodePacked(Users[msg.sender].role)) == keccak256(abi.encodePacked("PPSNV"))))){
+            if(open_voting == false){
+                if(Votings[id].open_voting == false){
+                    questions[j] = Votings[id].question;
+                    ids[j] = id;
+                    j++;
+                }
+            }else if(Votings[id].open_voting == true){
+                if(ec_voting == true && Votings[id].ec_voting == true){
+                    questions[j] = Votings[id].question;
+                    ids[j] = id;
+                    j++;
+                }else if(ec_voting == false && Votings[id].ec_voting == false){
+                    questions[j] = Votings[id].question;
+                    ids[j] = id;
+                    j++;
+                }
+            }
+        }
+        }
+        return(questions, ids);
+    }
+    
+    
+    
+}

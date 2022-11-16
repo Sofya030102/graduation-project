@@ -1,0 +1,73 @@
+.registration {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    margin: 0 auto;
+    padding-top: 10px;
+    grid-area: "fUn";
+  }
+  
+  .registration__login {
+    border: 1px solid #e5e9ea !important;
+    border-radius: 14px !important;
+    width: 100% !important;
+    height: 60px !important;
+    color: #314d61 !important;
+    background-color: #fbfcfd !important;
+    padding: 14px 20px !important;    
+    font-size: 1.0625rem !important;
+    font-weight: 500 !important;
+    line-height: 32px !important;
+    letter-spacing: 1px !important;
+    outline: none !important;
+    margin-bottom: 20px !important;
+  }
+  
+  .registration__name {
+    border: 1px solid #e5e9ea !important;
+    border-radius: 14px !important;
+    width: 100% !important;
+    height: 60px !important;
+    color: #314d61 !important;
+    background-color: #fbfcfd !important;
+    padding: 14px 20px !important;    
+    font-size: 1.0625rem !important;
+    font-weight: 500 !important;
+    line-height: 32px !important;
+    letter-spacing: 1px !important;
+    outline: none !important;
+    margin-bottom: 20px !important;
+  }
+  
+  .registration__password {
+    border: 1px solid #e5e9ea !important;
+    border-radius: 14px !important;
+    width: 100% !important;
+    height: 60px !important;
+    color: #314d61 !important;
+    background-color: #fbfcfd !important;
+    padding: 14px 20px !important;    
+    font-size: 1.0625rem !important;
+    font-weight: 500 !important;
+    line-height: 32px !important;
+    letter-spacing: 1px !important;
+    outline: none !important;
+    margin-bottom: 50px !important;
+  }
+  
+  .SetEC__btn {
+    margin: 0 auto !important;
+    margin-bottom: 35px !important;
+    width: 460px !important;
+    height: 60px !important;
+    outline: none !important;
+    border: none !important;
+    border-radius: 10px !important;
+    font-size: 1.0625rem !important;
+    line-height: 27px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.5625px !important;
+    color: #fff !important;
+    background-color: #0004ff !important;
+  }
